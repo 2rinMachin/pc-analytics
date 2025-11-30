@@ -1,0 +1,19 @@
+service: "${env:PROJECT_NAME}-analytics"
+
+provider:
+  name: "aws"
+  runtime: "python3.13"
+  memorySize: 512
+  timeout: 20
+  iam:
+    role: "arn:aws:iam::${env:AWS_USER_ID}:role/LabRole"
+  environment:
+    PROJECT_NAME: "${env:PROJECT_NAME}"
+    STAGE: "${env:STAGE}"
+
+custom:
+  pythonRequirements: {}
+
+functions:
+  get_status_counts:
+    handler: "functions/get_status_counts.handler"
