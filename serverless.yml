@@ -15,5 +15,36 @@ custom:
   pythonRequirements: {}
 
 functions:
+  get_status:
+    handler: "functions/get_status.handler"
+    events:
+      - http:
+          path: "/"
+          method: "get"
+          cors: true
+
   get_status_counts:
     handler: "functions/get_status_counts.handler"
+    events:
+      - http:
+          path: "/{tenant_id}/status-counts"
+          method: "get"
+          cors: true
+          authorizer:
+            arn: "${env:AWS_AUTHENTICATE_USER_ARN}"
+            type: "request"
+            identitySource: "method.request.header.Authorization"
+            resultTtlInSeconds: 0
+
+  get_popular_products:
+    handler: "functions/get_popular_products.handler"
+    events:
+      - http:
+          path: "/{tenant_id}/popular-products"
+          method: "get"
+          cors: true
+          authorizer:
+            arn: "${env:AWS_AUTHENTICATE_USER_ARN}"
+            type: "request"
+            identitySource: "method.request.header.Authorization"
+            resultTtlInSeconds: 0
